@@ -41,7 +41,7 @@ var timerTF = new PIXI.Text("0",{font:"50px Arial", fill:"gray"});
 stage.addChild(timerTF);
 timerTF.anchor.set(0.5,0.5);
 timerTF.position.y = 130;
-timerTF.position.x = 60;
+timerTF.position.x = 70;
 //newMC.pivot("Center");
 //newMC.position.x = 20;
 //newMC.position.y = 20;
@@ -70,27 +70,7 @@ for(i = 0; i < 4; i++){
     .on('touchstart', moveGoose);
 }
 
-var fps = 0;
-var t = 0;
-function timer()
-{
-  timerTF.text = t +":"+fps;
-  fps--;
-  if(fps < 0)
-  {
-    
-    t--;
-    fps = 60;
-    
-    //console.log("fps",t)
-    if(t < 0)
-    {
-      t = 4;
-      
-      changeTF();
-    }
-  }
-}
+
 function moveGoose()
 {
   goose.position.x = this.position.x + 50;
@@ -111,7 +91,6 @@ function changeTF()
 }
 function moveText()
 {
-  timer();
   if(text.position.y  > renderer.height + (text.height/2))
   {
     text.position.y = 0;
@@ -126,6 +105,9 @@ function moveText()
 }
 function animate() {
     moveText();
+    
+ timerCountdown();
+ timerTF.text = getSecond() + ":" + getMilli();
     requestAnimationFrame(animate);
     //newMC.animate();
     // Rotate our goose clockwise
