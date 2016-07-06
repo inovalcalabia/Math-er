@@ -35,7 +35,7 @@ var text = new PIXI.Text("1", {font:"50px Arial", fill:"gray"});
 stage.addChild(text);
 text.anchor.set(0.5, 0.5);
 text.position.x = renderer.width / 2;
-text.position.y = 130;
+text.position.y = 200;
 
 var timerTF = new PIXI.Text("0",{font:"50px Arial", fill:"gray"});
 stage.addChild(timerTF);
@@ -89,25 +89,18 @@ function changeTF()
     console.log(eval(text.text));
     
 }
-function moveText()
-{
-  if(text.position.y  > renderer.height + (text.height/2))
-  {
-    text.position.y = 0;
-    var rand1 = Math.floor(Math.random () * 10);
-    var rand2 = Math.floor(Math.random () * 10);
-    var rand3 = Math.floor(Math.random () * 10);
-    
-    text.setText(rand1 + " + " + rand2 + " + " + rand3);
-    
-  }
-  
-}
+
 function animate() {
-    moveText();
     
  timerCountdown();
  timerTF.text = getSecond() + ":" + getMilli();
+ if(getSecond() < 1 && getMilli() < 1)
+ {
+   for(i = 0;i <rocks.length;i++){
+     TweenLite.to(rocks[i].position, 1.2, {y: 600,onComplete:complete});
+   }
+   changeTF();
+ }
     requestAnimationFrame(animate);
     //newMC.animate();
     // Rotate our goose clockwise
@@ -117,4 +110,10 @@ function animate() {
  
     // Render our container
     renderer.render(stage);
+}
+function complete()
+{
+  for(i = 0;i <rocks.length;i++){
+    rocks[i].y = 10;
+   }
 }
